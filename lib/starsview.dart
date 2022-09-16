@@ -4,7 +4,12 @@ import 'StarsViewPainter.dart';
 
 class StarsView extends StatefulWidget {
 
-  const StarsView({super.key});
+  const StarsView({
+    super.key,
+    this.fps = 60
+  });
+
+  final int fps;
 
   @override
   State<StatefulWidget> createState() => _StarsViewState();
@@ -27,7 +32,7 @@ class _StarsViewState extends State<StarsView>{
 
     painter = StarsViewPainter(shouldRepaint);
 
-    timer = Timer.periodic(const Duration(milliseconds: 1000~/60), (Timer timer) {
+    timer = Timer.periodic(Duration(milliseconds: 1000~/widget.fps), (Timer timer) {
       setState(() {
         notifierState = !notifierState;
         shouldRepaint.value = notifierState;

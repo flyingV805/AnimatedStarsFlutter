@@ -38,7 +38,9 @@ class _MyAppState extends State<MyApp> {
                   )
                 )
               ),
-              StarsView()
+              StarsView(
+                fps: 60,
+              )
             ],
           ),
         ),
