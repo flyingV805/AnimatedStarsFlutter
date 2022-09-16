@@ -18,12 +18,12 @@ class Meteorite {
     factor = starSize * (doubleInRange(random, 0.01, 2) * 1.9);
     x = startX;
     y = startY;
+    trailLength = doubleInRange(random, 20, 180);
     debugPrint('METEORITE FACTOR: $factor');
   }
 
   final Random random;
   final int smallestWidth;
-  final int trailLength = 100;
   final MeteoriteCompleteListener listener;
   final double starSize;
 
@@ -31,6 +31,7 @@ class Meteorite {
   double y = 0;
   Color color = Colors.white;
 
+  late double trailLength;
   late double factor;
 
   bool finished = false;
@@ -53,9 +54,6 @@ class Meteorite {
       <Color>[color, Colors.white.withOpacity(0.0)]
     );
 
-
-    debugPrint('METEORITE update: $x  $y');
-
     if (x < (viewWidth * -0.5)) {
       listener.onMeteoriteComplete();
       finished = true;
@@ -75,7 +73,6 @@ class Meteorite {
     ..strokeWidth = 4.0
     ..color = const Color.fromRGBO(255, 255, 255, 1)
     ..style = PaintingStyle.fill;
-
 
 
   void draw(Canvas canvas){
