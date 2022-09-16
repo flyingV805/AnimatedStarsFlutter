@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:starsview/meteor/Meteorite.dart';
 import 'package:starsview/stars/BaseStar.dart';
 import 'package:starsview/stars/StarCompleteListener.dart';
 import 'package:starsview/stars/StarConstraints.dart';
@@ -24,12 +25,14 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
   bool initialized = false;
 
   Map<int, BaseStar> starMaps = <int, BaseStar>{};
+  Meteorite? meteorite = null;
 
   void start(){
     for(int i = 0; i <= starCount; i++){
       final BaseStar _star = _createStar(i);
       starMaps[i] = _star;
     }
+    meteorite = Meteorite(smallestWidth: 2, starSize: 2, startX: screenWidth, startY: doubleInRange(random, 0, screenHeight), listener: this, random: random);
   }
 
   @override
@@ -43,15 +46,28 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
     }
 
     if(_repaint.value){
-      for(final BaseStar star in starMaps.values.toList()){
+      /*for(final BaseStar star in starMaps.values.toList()){
         star.draw(canvas);
       }
+      meteorite?.updateFrame(size.width, size.height);
+      meteorite?.draw(canvas);*/
+      _updateFrame(canvas, size);
     }else{
-      for(final BaseStar star in starMaps.values.toList()){
+      /*for(final BaseStar star in starMaps.values.toList()){
         star.draw(canvas);
       }
+      meteorite?.draw(canvas);*/
+      _updateFrame(canvas, size);
     }
 
+  }
+
+  void _updateFrame(Canvas canvas, Size size){
+    for(final BaseStar star in starMaps.values.toList()){
+      star.draw(canvas);
+    }
+    meteorite?.updateFrame(size.width, size.height);
+    meteorite?.draw(canvas);
   }
 
   @override
@@ -80,7 +96,8 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
 
   @override
   void onMeteoriteComplete() {
-
+    meteorite = null;
+    meteorite = Meteorite(smallestWidth: 2, starSize: 2, startX: screenWidth, startY: doubleInRange(random, 0, screenHeight), listener: this, random: random);
   }
 
 
