@@ -18,22 +18,29 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
     this.meteoriteConfig = const MeteoriteConfig()
   }): super(repaint: shouldRepaint){
     _repaint = shouldRepaint;
+    starConstraints = StarConstraints(
+      minStarSize: starsConfig.minStarSize,
+      maxStarSize: starsConfig.maxStarSize,
+      bigStarThreshold: 259821
+    );
   }
 
   final StarsConfig starsConfig;
   final MeteoriteConfig meteoriteConfig;
 
   late ValueNotifier<bool> _repaint;
+  late StarConstraints starConstraints;
 
   Random random = Random(2);
 
   double screenWidth = 0.0;
   double screenHeight = 0.0;
-  StarConstraints starConstraints = StarConstraints(minStarSize: 0.5, maxStarSize: 3, bigStarThreshold: 259821);
   bool initialized = false;
 
   Map<int, BaseStar> starMaps = <int, BaseStar>{};
+
   Meteorite? meteorite;
+  int _meteoriteTick = 0;
 
   void start(){
     for(int i = 0; i <= starsConfig.starCount; i++){
@@ -61,6 +68,10 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
       debugPrint('WIDTH: $screenWidth HEIGHT: $screenHeight');
       initialized = true;
       start();
+    }
+
+    if(meteoriteConfig.enabled){
+      _meteoriteTick++;
     }
 
     if(_repaint.value){
