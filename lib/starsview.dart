@@ -1,15 +1,21 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:starsview/config/MeteoriteConfig.dart';
+import 'package:starsview/config/StarsConfig.dart';
 import 'StarsViewPainter.dart';
 
 class StarsView extends StatefulWidget {
 
   const StarsView({
     super.key,
-    this.fps = 60
+    this.fps = 60,
+    this.starsConfig = const StarsConfig(),
+    this.meteoriteConfig = const MeteoriteConfig()
   });
 
   final int fps;
+  final StarsConfig starsConfig;
+  final MeteoriteConfig meteoriteConfig;
 
   @override
   State<StatefulWidget> createState() => _StarsViewState();
@@ -30,7 +36,11 @@ class _StarsViewState extends State<StarsView>{
   void initState() {
     super.initState();
 
-    painter = StarsViewPainter(shouldRepaint);
+    painter = StarsViewPainter(
+      shouldRepaint,
+      starsConfig: widget.starsConfig,
+      meteoriteConfig: widget.meteoriteConfig
+    );
 
     timer = Timer.periodic(Duration(milliseconds: 1000~/widget.fps), (Timer timer) {
       setState(() {

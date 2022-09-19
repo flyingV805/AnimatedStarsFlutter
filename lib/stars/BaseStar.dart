@@ -14,7 +14,8 @@ class BaseStar {
     required this.y,
     required this.starListener,
     required this.starConstraints,
-    required this.random
+    required this.random,
+    required this.color
   }){
     size = starConstraints.getRandomSize();
     multiplierFactor = doubleInRange(random, 0.01, 0.09);
@@ -27,6 +28,7 @@ class BaseStar {
   final StarCompleteListener starListener;
   final StarConstraints starConstraints;
   final Random random;
+  final Color color;
 
   late double size;
 
@@ -52,7 +54,7 @@ class BaseStar {
       return;
     }
 
-    paint.color = Color.fromRGBO(255, 255, 255, alpha.clamp(0, 1));
+    paint.color = color.withOpacity(alpha.clamp(0, 1)); //Color.fromRGBO(255, 255, 255, alpha.clamp(0, 1));
 
     canvas.drawCircle(Offset(x, y), size, paint);
 

@@ -1,23 +1,31 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:starsview/config/MeteoriteConfig.dart';
 import 'package:starsview/meteor/Meteorite.dart';
 import 'package:starsview/stars/BaseStar.dart';
 import 'package:starsview/stars/StarCompleteListener.dart';
 import 'package:starsview/stars/StarConstraints.dart';
 
+import 'config/StarsConfig.dart';
 import 'meteor/MeteoriteCompleteListener.dart';
 import 'utils/RandomUtils.dart';
 
 class StarsViewPainter extends CustomPainter with StarCompleteListener, MeteoriteCompleteListener {
 
-  StarsViewPainter(ValueNotifier<bool> shouldRepaint): super(repaint: shouldRepaint){
+  StarsViewPainter( ValueNotifier<bool> shouldRepaint, {
+    this.starsConfig = const StarsConfig(),
+    this.meteoriteConfig = const MeteoriteConfig()
+  }): super(repaint: shouldRepaint){
     _repaint = shouldRepaint;
   }
 
+  final StarsConfig starsConfig;
+  final MeteoriteConfig meteoriteConfig;
+
   late ValueNotifier<bool> _repaint;
 
-  final int starCount = 75;
+  Random random = Random(2);
 
   double screenWidth = 0.0;
   double screenHeight = 0.0;
@@ -25,14 +33,24 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
   bool initialized = false;
 
   Map<int, BaseStar> starMaps = <int, BaseStar>{};
-  Meteorite? meteorite = null;
+  Meteorite? meteorite;
 
   void start(){
-    for(int i = 0; i <= starCount; i++){
+    for(int i = 0; i <= starsConfig.starCount; i++){
       final BaseStar _star = _createStar(i);
       starMaps[i] = _star;
     }
-    meteorite = Meteorite(smallestWidth: 2, starSize: 2, startX: screenWidth, startY: doubleInRange(random, 0, screenHeight), listener: this, random: random);
+
+    if(meteoriteConfig.enabled){
+      meteorite = Meteorite(
+        smallestWidth: 2,
+        starSize: 2,
+        startX: screenWidth,
+        startY: doubleInRange(random, 0, screenHeight),
+        listener: this, random: random
+      );
+    }
+
   }
 
   @override
@@ -81,12 +99,14 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
     starMaps[id] = _createStar(id);
   }
 
-  Random random = Random(2);
-
   BaseStar _createStar(int id){
+
+    starsConfig.colors.randomElement(random);
+
     return BaseStar(
       id: id,
       random: random,
+      color: starsConfig.colors.randomElement(random),
       x: doubleInRange(random, 0.0, screenWidth),
       y: doubleInRange(random, 0.0, screenHeight),
       starListener: this,
