@@ -27,21 +27,21 @@ Widget build(BuildContext context) {
 	child: Stack(  
 	  children: <Widget>[  
 	    Container(  
-	  	decoration: const BoxDecoration(  
-		    gradient: LinearGradient(  
-			begin: Alignment.topRight,  
-			end: Alignment.bottomLeft,  
-			colors: <Color>[  
-			    Colors.red,  
-			    Colors.blue,  
-			],  
-		    )  
-		 )  
+	      decoration: const BoxDecoration(  
+	        gradient: LinearGradient(  
+		  begin: Alignment.topRight,  
+		  end: Alignment.bottomLeft,  
+		  colors: <Color>[  
+		    Colors.red,  
+		    Colors.blue,  
+		  ],  
+		)  
+	      )  
 	    ),  
 	    StarsView(  
 	      fps: 60,  
 	    )  
-	],  
+	  ],  
 	),  
       ),  
     ),  
