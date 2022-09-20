@@ -22,29 +22,29 @@ Add StarsView to your widget tree
 @override  
 Widget build(BuildContext context) {  
   return MaterialApp(  
-	home: Scaffold(  
-	  body: SafeArea(  
-	    child: Stack(  
-		  children: <Widget>[  
-		    Container(  
-			  decoration: const BoxDecoration(  
-				gradient: LinearGradient(  
-				  begin: Alignment.topRight,  
-				  end: Alignment.bottomLeft,  
-				  colors: <Color>[  
-				    Colors.red,  
-				    Colors.blue,  
-				  ],  
-			    )  
-			  )  
-			),  
-			StarsView(  
-			  fps: 60,  
-			)  
-		  ],  
-		),  
-	  ),  
+    home: Scaffold(  
+      body: SafeArea(  
+	child: Stack(  
+	  children: <Widget>[  
+	    Container(  
+	  	decoration: const BoxDecoration(  
+		    gradient: LinearGradient(  
+			begin: Alignment.topRight,  
+			end: Alignment.bottomLeft,  
+			colors: <Color>[  
+			    Colors.red,  
+			    Colors.blue,  
+			],  
+		    )  
+		 )  
+	    ),  
+	    StarsView(  
+	      fps: 60,  
+	    )  
+	],  
 	),  
+      ),  
+    ),  
   );  
 }
 ```
