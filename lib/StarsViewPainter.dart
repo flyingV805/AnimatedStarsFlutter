@@ -121,6 +121,8 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
   @override
   void onMeteoriteComplete() {
     meteorite = null;
+    _meteoriteTick = 0;
+
     meteorite = Meteorite(
       smallestWidth: 2, 
       starSize: doubleInRange(random, meteoriteConfig.minMeteoriteSize, meteoriteConfig.maxMeteoriteSize),
