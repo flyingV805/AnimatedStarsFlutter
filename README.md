@@ -3,6 +3,8 @@
 
 AnimatedStarsView for Flutter 
 
+![Alt Text](https://raw.githubusercontent.com/flyingV805/AnimatedStarsFlutter/main/readmeRes/preview.gif)
+
 Pure Dart implementation of [AnimatedStarsView](https://github.com/sofakingforever/animated-stars-android)
 
 ## Getting Started
