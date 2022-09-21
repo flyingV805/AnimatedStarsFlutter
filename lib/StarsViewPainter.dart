@@ -42,6 +42,11 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
   Meteorite? meteorite;
   int _meteoriteTick = 0;
 
+  void handleChange(){
+    debugPrint('ORIENTATION CHANGED');
+    initialized = false;
+  }
+
   void start(){
     for(int i = 0; i <= starsConfig.starCount; i++){
       final BaseStar _star = _createStar(i);
