@@ -1,7 +1,8 @@
 name: starsview
 description: AnimatedStarsView for Flutter
 version: 0.0.1
-homepage:
+homepage: https://github.com/flyingV805/AnimatedStarsFlutter
+repository: https://github.com/flyingV805/AnimatedStarsFlutter
 
 environment:
   sdk: '>=2.18.0 <3.0.0'
