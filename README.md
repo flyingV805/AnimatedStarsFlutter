@@ -1,6 +1,8 @@
 
 # AnimatedStarsView
 
+[![starsview](https://img.shields.io/pub/v/starsview?label=starsview&style=flat-square)](https://pub.dev/packages/starsview)
+
 AnimatedStarsView for Flutter 
 
 ![Alt Text](https://raw.githubusercontent.com/flyingV805/AnimatedStarsFlutter/main/readmeRes/preview.gif)
