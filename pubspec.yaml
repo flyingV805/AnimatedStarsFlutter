@@ -1,5 +1,5 @@
 name: starsview
-description: AnimatedStarsView for Flutter
+description: AnimatedStarsView for Flutter. The widget provides a view with an animated starry night sky effect.
 version: 0.0.1
 homepage: https://github.com/flyingV805/AnimatedStarsFlutter
 repository: https://github.com/flyingV805/AnimatedStarsFlutter
