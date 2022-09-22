@@ -41,6 +41,7 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
 
   Meteorite? meteorite;
   int _meteoriteTick = 0;
+  bool _meteoriteOnScreen = false;
 
   void handleChange(){
     debugPrint('ORIENTATION CHANGED');
@@ -54,15 +55,7 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
     }
 
     if(meteoriteConfig.enabled){
-      meteorite = Meteorite(
-          smallestWidth: 2,
-          starSize: doubleInRange(random, meteoriteConfig.minMeteoriteSize, meteoriteConfig.maxMeteoriteSize),
-          startX: screenWidth,
-          startY: doubleInRange(random, 0, screenHeight),
-          listener: this,
-          random: random,
-          color: meteoriteConfig.colors.randomElement(random)
-      );
+      createMeteorite();
     }
 
   }
@@ -78,7 +71,12 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
     }
 
     if(meteoriteConfig.enabled){
-      _meteoriteTick++;
+      if(!_meteoriteOnScreen) {
+        _meteoriteTick++;
+      }
+      if(_meteoriteTick > 500){
+        createMeteorite();
+      }
     }
 
     if(_repaint.value){
@@ -123,20 +121,25 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
     );
   }
 
+  void createMeteorite(){
+    _meteoriteTick = 0;
+    _meteoriteOnScreen = true;
+    meteorite = Meteorite(
+        smallestWidth: 2,
+        starSize: doubleInRange(random, meteoriteConfig.minMeteoriteSize, meteoriteConfig.maxMeteoriteSize),
+        startX: screenWidth,
+        startY: doubleInRange(random, 0, screenHeight),
+        listener: this,
+        random: random,
+        color: meteoriteConfig.colors.randomElement(random)
+    );
+  }
+
   @override
   void onMeteoriteComplete() {
     meteorite = null;
     _meteoriteTick = 0;
-
-    meteorite = Meteorite(
-      smallestWidth: 2, 
-      starSize: doubleInRange(random, meteoriteConfig.minMeteoriteSize, meteoriteConfig.maxMeteoriteSize),
-      startX: screenWidth, 
-      startY: doubleInRange(random, 0, screenHeight), 
-      listener: this, 
-      random: random, 
-      color: meteoriteConfig.colors.randomElement(random)
-    );
+    _meteoriteOnScreen = false;
   }
 
 

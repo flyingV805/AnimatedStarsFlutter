@@ -64,9 +64,7 @@ class _StarsViewState extends State<StarsView>{
   @override
   Widget build(BuildContext context) {
 
-    if(lastOrientation == null){
-      lastOrientation = MediaQuery.of(context).orientation;
-    }
+    lastOrientation ??= MediaQuery.of(context).orientation;
 
     if (MediaQuery.of(context).orientation != lastOrientation){
       lastOrientation = MediaQuery.of(context).orientation;
