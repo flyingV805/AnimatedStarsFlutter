@@ -18,7 +18,7 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
     this.meteoriteConfig = const MeteoriteConfig()
   }): super(repaint: shouldRepaint){
     _repaint = shouldRepaint;
-    starConstraints = StarConstraints(
+    _starConstraints = StarConstraints(
       minStarSize: starsConfig.minStarSize,
       maxStarSize: starsConfig.maxStarSize,
       bigStarThreshold: 259821
@@ -29,44 +29,44 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
   final MeteoriteConfig meteoriteConfig;
 
   late ValueNotifier<bool> _repaint;
-  late StarConstraints starConstraints;
+  late StarConstraints _starConstraints;
 
-  Random random = Random();
+  final Random _random = Random();
 
-  double screenWidth = 0.0;
-  double screenHeight = 0.0;
-  bool initialized = false;
+  double _screenWidth = 0.0;
+  double _screenHeight = 0.0;
+  bool _initialized = false;
 
-  Map<int, BaseStar> starMaps = <int, BaseStar>{};
+  final Map<int, BaseStar> _starMaps = <int, BaseStar>{};
 
-  Meteorite? meteorite;
+  Meteorite? _meteorite;
   int _meteoriteTick = 0;
   bool _meteoriteOnScreen = false;
 
   void handleChange(){
     debugPrint('ORIENTATION CHANGED');
-    initialized = false;
+    _initialized = false;
   }
 
   void start(){
     for(int i = 0; i <= starsConfig.starCount; i++){
       final BaseStar _star = _createStar(i);
-      starMaps[i] = _star;
+      _starMaps[i] = _star;
     }
 
     if(meteoriteConfig.enabled){
-      createMeteorite();
+      _createMeteorite();
     }
 
   }
 
   @override
   void paint(Canvas canvas, Size size) {
-    if(!initialized){
-      screenWidth = size.width;
-      screenHeight = size.height;
-      debugPrint('WIDTH: $screenWidth HEIGHT: $screenHeight');
-      initialized = true;
+    if(!_initialized){
+      _screenWidth = size.width;
+      _screenHeight = size.height;
+      debugPrint('WIDTH: $_screenWidth HEIGHT: $_screenHeight');
+      _initialized = true;
       start();
     }
 
@@ -75,7 +75,7 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
         _meteoriteTick++;
       }
       if(_meteoriteTick > 500){
-        createMeteorite();
+        _createMeteorite();
       }
     }
 
@@ -88,11 +88,11 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
   }
 
   void _updateFrame(Canvas canvas, Size size){
-    for(final BaseStar star in starMaps.values.toList()){
+    for(final BaseStar star in _starMaps.values.toList()){
       star.draw(canvas);
     }
-    meteorite?.updateFrame(size.width, size.height);
-    meteorite?.draw(canvas);
+    _meteorite?.updateFrame(size.width, size.height);
+    _meteorite?.draw(canvas);
   }
 
   @override
@@ -102,42 +102,42 @@ class StarsViewPainter extends CustomPainter with StarCompleteListener, Meteorit
 
   @override
   void onStarAnimationComplete(int id) {
-    starMaps.remove(id);
-    starMaps[id] = _createStar(id);
+    _starMaps.remove(id);
+    _starMaps[id] = _createStar(id);
   }
 
   BaseStar _createStar(int id){
 
-    starsConfig.colors.randomElement(random);
+    starsConfig.colors.randomElement(_random);
 
     return BaseStar(
       id: id,
-      random: random,
-      color: starsConfig.colors.randomElement(random),
-      x: doubleInRange(random, 0.0, screenWidth),
-      y: doubleInRange(random, 0.0, screenHeight),
+      random: _random,
+      color: starsConfig.colors.randomElement(_random),
+      x: doubleInRange(_random, 0.0, _screenWidth),
+      y: doubleInRange(_random, 0.0, _screenHeight),
       starListener: this,
-      starConstraints: starConstraints
+      starConstraints: _starConstraints
     );
   }
 
-  void createMeteorite(){
+  void _createMeteorite(){
     _meteoriteTick = 0;
     _meteoriteOnScreen = true;
-    meteorite = Meteorite(
+    _meteorite = Meteorite(
         smallestWidth: 2,
-        starSize: doubleInRange(random, meteoriteConfig.minMeteoriteSize, meteoriteConfig.maxMeteoriteSize),
-        startX: screenWidth,
-        startY: doubleInRange(random, 0, screenHeight),
+        starSize: doubleInRange(_random, meteoriteConfig.minMeteoriteSize, meteoriteConfig.maxMeteoriteSize),
+        startX: _screenWidth,
+        startY: doubleInRange(_random, 0, _screenHeight),
         listener: this,
-        random: random,
-        color: meteoriteConfig.colors.randomElement(random)
+        random: _random,
+        color: meteoriteConfig.colors.randomElement(_random)
     );
   }
 
   @override
   void onMeteoriteComplete() {
-    meteorite = null;
+    _meteorite = null;
     _meteoriteTick = 0;
     _meteoriteOnScreen = false;
   }

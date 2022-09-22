@@ -16,19 +16,19 @@ class Meteorite {
     required double startX,
     required double startY,
   }){
-    factor = starSize * (doubleInRange(random, 0.1, 2) * 1.9);
-    x = startX;
-    y = startY;
-    trailLength = doubleInRange(random, 20, 180);
-    debugPrint('METEORITE FACTOR: $factor');
+    _factor = starSize * (doubleInRange(random, 0.1, 2) * 1.9);
+    _x = startX;
+    _y = startY;
+    _trailLength = doubleInRange(random, 20, 180);
+    debugPrint('METEORITE FACTOR: $_factor');
 
-    trailPaint = Paint()
+    _trailPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4.0
       ..color = color
       ..style = PaintingStyle.fill;
 
-    paint = Paint()
+    _paint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4.0
@@ -43,38 +43,38 @@ class Meteorite {
   final double starSize;
   final Color color;
 
-  double x = 0;
-  double y = 0;
+  double _x = 0;
+  double _y = 0;
 
-  late Paint trailPaint;
-  late Paint paint;
+  late Paint _trailPaint;
+  late Paint _paint;
 
-  late double trailLength;
-  late double factor;
+  late double _trailLength;
+  late double _factor;
 
-  bool finished = false;
+  bool _finished = false;
 
   void updateFrame(double viewWidth, double viewHeight){
 
-    if(finished){
+    if(_finished){
       return;
     }
 
     // go left
-    x -= factor;
+    _x -= _factor;
 
     // go down
-    y += factor;
+    _y += _factor;
 
-    trailPaint.shader = ui.Gradient.linear(
-      Offset(x, y),
-      Offset(x + trailLength, y - trailLength),
+    _trailPaint.shader = ui.Gradient.linear(
+      Offset(_x, _y),
+      Offset(_x + _trailLength, _y - _trailLength),
       <Color>[color, color.withOpacity(0.0)]
     );
 
-    if (x < (viewWidth * -0.5)) {
+    if (_x < (viewWidth * -0.5)) {
       listener.onMeteoriteComplete();
-      finished = true;
+      _finished = true;
     }
 
   }
@@ -82,12 +82,12 @@ class Meteorite {
 
   void draw(Canvas canvas){
 
-    canvas.drawCircle(Offset(x, y), starSize, paint);
+    canvas.drawCircle(Offset(_x, _y), starSize, _paint);
 
     canvas.drawLine(
-      Offset(x, y),
-      Offset(x + trailLength, y - trailLength),
-      trailPaint
+      Offset(_x, _y),
+      Offset(_x + _trailLength, _y - _trailLength),
+      _trailPaint
     );
 
   }

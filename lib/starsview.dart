@@ -24,30 +24,30 @@ class StarsView extends StatefulWidget {
 
 class _StarsViewState extends State<StarsView>{
 
-  late Timer timer;
+  late Timer _timer;
 
-  late StarsViewPainter painter;
+  late StarsViewPainter _painter;
 
-  ValueNotifier<bool> shouldRepaint = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _shouldRepaint = ValueNotifier<bool>(true);
 
-  bool notifierState = false;
+  bool _notifierState = false;
 
-  Orientation? lastOrientation;
+  Orientation? _lastOrientation;
 
   @override
   void initState() {
     super.initState();
 
-    painter = StarsViewPainter(
-      shouldRepaint,
+    _painter = StarsViewPainter(
+      _shouldRepaint,
       starsConfig: widget.starsConfig,
       meteoriteConfig: widget.meteoriteConfig
     );
 
-    timer = Timer.periodic(Duration(milliseconds: 1000~/widget.fps), (Timer timer) {
+    _timer = Timer.periodic(Duration(milliseconds: 1000~/widget.fps), (Timer timer) {
       setState(() {
-        notifierState = !notifierState;
-        shouldRepaint.value = notifierState;
+        _notifierState = !_notifierState;
+        _shouldRepaint.value = _notifierState;
         //debugPrint('FRAME TICK');
         //painter.tick();
       });
@@ -58,23 +58,23 @@ class _StarsViewState extends State<StarsView>{
   @override
   void dispose(){
     super.dispose();
-    timer.cancel();
+    _timer.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    lastOrientation ??= MediaQuery.of(context).orientation;
+    _lastOrientation ??= MediaQuery.of(context).orientation;
 
-    if (MediaQuery.of(context).orientation != lastOrientation){
-      lastOrientation = MediaQuery.of(context).orientation;
-      painter.handleChange();
+    if (MediaQuery.of(context).orientation != _lastOrientation){
+      _lastOrientation = MediaQuery.of(context).orientation;
+      _painter.handleChange();
     }
 
     return Stack(
       children: <Widget>[
         CustomPaint(
-          painter: painter,
+          painter: _painter,
           child: Container(),
         )
       ],
