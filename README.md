@@ -16,7 +16,7 @@ Add library to your pubspec.yaml
 
 ```yaml
 dependencies:
-  starsview: '^0.0.1'
+  starsview: '^0.0.2'
 ```
 
 ### Step 2
